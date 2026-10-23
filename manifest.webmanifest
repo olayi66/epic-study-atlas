@@ -1,0 +1,23 @@
+{
+  "name": "Epic Study Atlas",
+  "short_name": "Epic Study",
+  "description": "Study guide for Epic EHR applications: A–Z topics, owning applications, lessons (CRM, HL7, FHIR), Clarity tables, flashcards and a quiz.",
+  "id": "/",
+  "start_url": "/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0e2a33",
+  "theme_color": "#0e2a33",
+  "categories": ["education", "medical"],
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Flashcards", "url": "/?tab=flash", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]},
+    {"name": "Quiz", "url": "/?tab=quiz", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]},
+    {"name": "A–Z index", "url": "/?tab=index", "icons": [{"src": "icons/icon-192.png", "sizes": "192x192"}]}
+  ]
+}

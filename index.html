@@ -3,6 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e2a33">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Epic Study">
+<meta name="description" content="Epic EHR study guide: A–Z topics, owning applications, HL7/FHIR lessons, Clarity tables, flashcards and quiz.">
 <title>Epic Study Atlas</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,7 +67,7 @@ a{color:var(--accent)}
 header.top{background:var(--band);color:var(--band-ink);border-bottom:4px solid var(--hl);background-image:linear-gradient(var(--band-line) 1px,transparent 1px),linear-gradient(90deg,var(--band-line) 1px,transparent 1px);background-size:28px 28px}
 header.top .eyebrow{color:var(--hl)}
 header.top .sub{color:var(--band-muted)}
-header.top h1 em{color:var(--band)}
+header.top h1 em{color:var(--band);background:var(--hl);border-radius:6px;padding:0 .18em}
 .stats{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font:500 12px var(--mono);color:var(--band-muted)}
 .stats b{font:700 18px var(--display);color:var(--band-ink);margin-right:4px}
 header.top .progress{background:rgba(255,255,255,.06);border:1px solid var(--band-line);border-radius:10px;padding:12px 14px;color:var(--band-muted)}
@@ -143,6 +152,23 @@ td code,.code{font-family:var(--mono);font-size:13px}
 table.evt{min-width:0;font-size:13px;margin:6px 0}
 table.evt td,table.evt th{padding:5px 8px}
 @media (max-width:420px){.msggrid{grid-template-columns:1fr}}
+.stack>*,.two>*,.msggrid>*,.lesson,.lesson>*{min-width:0}
+.botnav{display:none}
+.installbar{display:none;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--band-muted)}
+.installbar.show{display:flex}
+.installbar button{font:600 14px var(--body);background:var(--hl);color:var(--band);border:0;border-radius:999px;padding:8px 16px;cursor:pointer}
+.installbar .x{background:none;color:var(--band-muted);padding:4px 8px}
+@media (max-width:720px){
+  header.top .sub,header.top .progress{display:none}
+  header.top .wrap{padding-top:14px;padding-bottom:12px}
+  .stats{margin-top:8px}
+  body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+  .botnav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--paper);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+  .botnav button{background:none;border:0;color:var(--muted);font:600 11px var(--body);display:grid;justify-items:center;gap:3px;padding:4px 2px;cursor:pointer;min-height:48px}
+  .botnav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .botnav button[aria-selected="true"]{color:var(--accent)}
+  table{font-size:13px}
+}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
 .card-stage{display:grid;place-items:center;gap:14px}
 .flash{width:min(560px,100%);min-height:260px;perspective:1200px;cursor:pointer}
@@ -216,6 +242,7 @@ a.chip{text-decoration:none}
     <p class="sub">An A–Z of Epic topics (seeded from the University of Iowa's public index and expanded with tip sheets and guides from other health systems, Epic, standards bodies and vendors), with the application that manages each one, deep dives on the core applications, how data moves, the tables behind them, engagement lessons, flashcards and a quiz.</p>
     <div class="stats" id="stats"></div>
   </div>
+  <div class="installbar" id="installBar"><span id="installTxt">Install Epic Study Atlas as an app on this device.</span><button id="installBtn" type="button">Install app</button><button class="x" id="installX" type="button" aria-label="Dismiss">Not now</button></div>
   <div class="progress"><span id="progTxt">0 of 0 applications studied</span><div class="bar"><i id="progBar"></i></div></div>
 </div></header>
 
@@ -436,6 +463,13 @@ a.chip{text-decoration:none}
 </section>
 
 </div></main>
+<nav class="botnav" aria-label="App sections">
+  <button data-tab="map" type="button"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+  <button data-tab="index" type="button"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>A–Z</button>
+  <button data-tab="lessons" type="button"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>Lessons</button>
+  <button data-tab="flash" type="button"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v10"/></svg>Cards</button>
+  <button data-tab="quiz" type="button"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg>Quiz</button>
+</nav>
 
 <script>
 const IA="https://epicsupport.sites.uiowa.edu";
@@ -1146,9 +1180,27 @@ function drawQ(){
 
 /* init */
 renderMods();renderAZ();buildDeck(true);prog();
-const startTab=(location.hash||"").slice(1);
+const startTab=(location.hash||"").slice(1)||(()=>{try{return new URLSearchParams(location.search).get("tab")||""}catch(e){return ""}})();
 if(startTab.startsWith("t-")&&TOPICS.T[startTab])openTopic(startTab);
 else show(["map","apps","index","lessons","data","tools","flash","quiz","src"].includes(startTab)?startTab:store.get("epic_tab","map"));
+
+/* ---------- installable app (PWA) ---------- */
+(function(){
+  const inFrame=(()=>{try{return window.top!==window}catch(e){return true}})();
+  const appHost=(/^https:$/.test(location.protocol)||location.hostname==="localhost")&&!inFrame&&!/claude\.ai|claudeusercontent/.test(location.hostname);
+  if(!appHost)return;
+  if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+  const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+  let dismissed=false;try{dismissed=localStorage.getItem("epic_install_x")==="1"}catch(e){}
+  if(standalone||dismissed)return;
+  const bar=document.getElementById("installBar"),btn=document.getElementById("installBtn"),txt=document.getElementById("installTxt");
+  document.getElementById("installX").onclick=()=>{bar.classList.remove("show");try{localStorage.setItem("epic_install_x","1")}catch(e){}};
+  let ev=null;
+  addEventListener("beforeinstallprompt",e=>{e.preventDefault();ev=e;bar.classList.add("show")});
+  btn.onclick=async()=>{if(!ev)return;ev.prompt();await ev.userChoice.catch(()=>{});ev=null;bar.classList.remove("show")};
+  addEventListener("appinstalled",()=>bar.classList.remove("show"));
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent)){txt.textContent="Install on iPhone: tap the Share button, then Add to Home Screen.";btn.hidden=true;bar.classList.add("show")}
+})();
 </script>
 
 </body>
